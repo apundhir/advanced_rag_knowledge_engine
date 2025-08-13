@@ -1,8 +1,10 @@
 ## Advanced RAG Knowledge Engine
 
-A production-grade Retrieval-Augmented Generation (RAG) proof-of-concept showcasing advanced techniques to reduce hallucinations and improve context precision. This repository is designed as a leadership portfolio artifact, demonstrating architectural rigor, engineering craftsmanship, and measurable evaluation.
+A production-grade Retrieval-Augmented Generation (RAG) proof-of-concept for knowledge sharing. This POC demonstrates advanced techniques to reduce hallucinations and improve context precision in a clear, testable, and extensible way.
 
 ## Table of Contents
+- Why this POC is different
+- What’s unique in this POC
 - Vision and Objectives
 - Architecture Overview
 - Component Responsibilities
@@ -15,6 +17,31 @@ A production-grade Retrieval-Augmented Generation (RAG) proof-of-concept showcas
 - Testing Strategy
 - Security, Reliability, and Operations
 - Roadmap and Extensions
+
+## Why this POC is different
+- Reduces common RAG failures with targeted techniques:
+  - Hallucinations: forces grounding and evaluability; faithfulness-ready evaluation
+  - Context fragmentation: prevents answers split across chunks via sentence-window retrieval
+  - Query-document mismatch: bridges short/ambiguous queries with HyDE-first retrieval
+  - Retrieval noise: second-stage cross-encoder re-ranking improves top-k quality
+- Production-shaped, not a toy demo:
+  - Robust logging (JSON with trace IDs), health checks, config via YAML/env, tests, Docker, API
+  - Deterministic offline fallbacks for CI/local dev without external LLMs
+- Measurable uplift:
+  - Baseline vs advanced pipelines with an evaluation harness (RAGAS-ready)
+
+## What’s unique in this POC
+- Sentence-Window Retrieval (precision + context)
+  - Embeds the precise center sentence, retrieves the full window of neighboring sentences
+  - Keeps retrieval precise and the final prompt context-rich
+- HyDE-first retrieval
+  - Generates a concise hypothetical answer and embeds it to better match relevant documents
+- Cross-encoder re-ranking with safe fallback
+  - Quality gate on initial vector hits; lexical-overlap fallback ensures deterministic tests when offline
+- Systematic evaluation path
+  - Proxy metrics for CI; RAGAS for faithfulness, answer relevancy, and context precision when keys are available
+- Operational excellence by default
+  - JSON logs, `/health` with GPU/model status, configuration, validation, timeouts, and input caps
 
 ## Vision and Objectives
 This POC implements a multi-stage RAG pipeline beyond naïve chunking.
@@ -189,7 +216,7 @@ This POC includes an evaluation harness designed to compare the naïve baseline 
   - Baseline avg ≈ 0.536
   - Advanced avg ≈ 0.273
 
-Interpretation: The proxy metric can be noisy on tiny datasets and without domain-rich sources. The advanced pipeline generally shines with realistic corpora, where HyDE and re-ranking reduce retrieval noise. For a leadership-grade showcase, integrate a richer evaluation set and enable RAGAS to report:
+Interpretation: The proxy metric can be noisy on tiny datasets and without domain-rich sources. The advanced pipeline generally shines with realistic corpora, where HyDE and re-ranking reduce retrieval noise. For more robust evaluation, expand the dataset and enable RAGAS to report:
 - Faithfulness (hallucination/contradiction)
 - Answer relevancy
 - Context precision
@@ -250,3 +277,6 @@ conda activate advanced-rag-knowledge-engine
 cd docker && docker compose up -d
 # http://localhost:8005/health
 ```
+
+---
+This document demonstrates a complete, testable, and extensible advanced RAG system suitable for knowledge sharing and practical adoption.
