@@ -265,6 +265,3 @@ conda activate advanced-rag-knowledge-engine
 cd docker && docker compose up -d
 # http://localhost:8005/health
 ```
-
----
-This document demonstrates a complete, testable, and extensible advanced RAG system suitable for leadership review and portfolio presentation.
