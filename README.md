@@ -1,3 +1,11 @@
+<img src="assets/banner.png" alt="Ajay Pundhir — AiExponent" width="100%" />
+
+> Building responsible, enterprise-scale AI that delivers measurable business value — from governance to platforms to production.
+
+[![Consult Now](https://img.shields.io/badge/Consult%20Now-FAD232?style=for-the-badge&logo=bolt&logoColor=004141&labelColor=004141)](https://aiexponent.com/blog/)
+[![Connect on LinkedIn](https://img.shields.io/badge/Connect%20on%20LinkedIn-009292?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/ajaypundhir)
+[![Visit my website](https://img.shields.io/badge/Visit%20my%20website-009292?style=for-the-badge&logo=firefox&logoColor=white)](https://aiexponent.com)
+
 ## Advanced RAG Knowledge Engine
 
 A production-grade Retrieval-Augmented Generation (RAG) proof-of-concept for knowledge sharing. This POC demonstrates advanced techniques to reduce hallucinations and improve context precision in a clear, testable, and extensible way.
