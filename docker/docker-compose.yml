@@ -1,0 +1,19 @@
+version: "3.9"
+services:
+  advanced-rag-engine:
+    container_name: advanced-rag-engine
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - CUDA_VISIBLE_DEVICES=${CUDA_VISIBLE_DEVICES:-}
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+      - HOST=0.0.0.0
+      - PORT=5000
+    ports:
+      - "8005:5000"
+    volumes:
+      - ../configs:/app/configs
+      - ../data:/app/data
+    restart: unless-stopped

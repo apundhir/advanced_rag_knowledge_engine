@@ -1,0 +1,17 @@
+app:
+  name: advanced-rag-engine
+  version: 0.1.0
+  host: 0.0.0.0
+  port: 5000
+
+logging:
+  level: INFO
+  json: true
+  log_file: logs/app.log
+
+db:
+  chroma_path: data/chroma
+
+runtime:
+  device: cpu
+  cuda_visible_devices: ""
