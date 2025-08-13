@@ -28,54 +28,39 @@ This POC implements a multi-stage RAG pipeline beyond naïve chunking.
 ## Architecture Overview
 
 ### High-level pipeline (Milestones 0–3)
-```mermaid
-flowchart LR
-  A[User Query] --> B[HyDE Generator (LLM optional)]
-  B --> C[Embed HyDE]
-  C --> D[Vector Search (ChromaDB)]
-  D --> E[Cross-Encoder Re-ranker]
-  E --> F[Prompt Formatter]
-  F --> G[Generator LLM]
-  G --> H[Grounded Answer + Citations]
+```
+[User Query]
+  -> [HyDE Generator (optional)]
+  -> [Embed (HyDE or query)]
+  -> [Vector Search (ChromaDB)]
+  -> [Cross-Encoder Re-ranker]
+  -> [Prompt Formatter]
+  -> [Generator LLM]
+  -> [Grounded Answer + Citations]
 ```
 
 ### Component diagram
-```mermaid
-graph TD
-  subgraph API
-    API1[FastAPI: /health /ingest /query]
-  end
+```
+API: FastAPI /health, /ingest, /query
 
-  subgraph Core
-    CFG[Config Loader]
-    LOG[JSON Logging]
-    HLTH[Health State]
-  end
+Core:
+  - Config Loader
+  - JSON Logging
+  - Health State
 
-  subgraph Ingestion
-    LDR[Loaders (PDF/TXT)]
-    SWS[Sentence-Window Splitter]
-    IDX[Index Builder]
-  end
+Ingestion:
+  - Loaders (PDF/TXT)
+  - Sentence-Window Splitter
+  - Index Builder (ChromaDB)
 
-  subgraph Retrieval
-    EMB[Embeddings (Sentence-Transformers)]
-    REQ[Vector Search (Chroma)]
-    RER[Rerank (Cross-Encoder or Fallback)]
-  end
+Retrieval:
+  - Embeddings (Sentence-Transformers)
+  - Vector Search (Chroma)
+  - Rerank (Cross-Encoder or Fallback)
 
-  subgraph LLM
-    HYDE[HyDE Provider (OpenAI optional)]
-    GEN[Answer Generator (OpenAI optional)]
-  end
-
-  API1 --> LDR
-  LDR --> SWS --> IDX
-  API1 --> EMB --> REQ --> RER --> GEN
-  HYDE --> EMB
-  CFG --> API1
-  LOG --> API1
-  HLTH --> API1
+LLM:
+  - HyDE Provider (OpenAI optional)
+  - Answer Generator (OpenAI optional)
 ```
 
 ## Data Flow and Pipeline Stages
