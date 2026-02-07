@@ -53,21 +53,21 @@ The "Advanced RAG" flow featuring **HyDE** and **Cross-Encoder Reranking**.
 
 ```mermaid
 flowchart TD
-    Start([User Question]) --> HyDE{Use HyDE?}
+    Start(["User Question"]) --> HyDE{"Use HyDE?"}
     
-    HyDE -- Yes --> GenHyDE[Generate Hypothetical Answer]
-    GenHyDE --> Embed[Embed Text]
+    HyDE -- Yes --> GenHyDE["Generate Hypothetical Answer"]
+    GenHyDE --> Embed["Embed Text"]
     HyDE -- No --> Embed
     
-    Embed --> Retrieve[Vector Search (Top-K)]
-    Retrieve --> Rerank{Use Reranker?}
+    Embed --> Retrieve["Vector Search (Top-K)"]
+    Retrieve --> Rerank{"Use Reranker?"}
     
-    Rerank -- Yes --> CrossEncoder[Cross-Encoder Scoring]
-    CrossEncoder --> Filter[Top-N Relevant]
+    Rerank -- Yes --> CrossEncoder["Cross-Encoder Scoring"]
+    CrossEncoder --> Filter["Top-N Relevant"]
     Rerank -- No --> Filter
     
-    Filter --> Context[Construct Context Window]
-    Context --> Prompt[Format Prompt]
-    Prompt --> LLM[Generator LLM]
-    LLM --> Answer([Final Answer])
+    Filter --> Context["Construct Context Window"]
+    Context --> Prompt["Format Prompt"]
+    Prompt --> LLM["Generator LLM"]
+    LLM --> Answer(["Final Answer"])
 ```
