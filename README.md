@@ -14,7 +14,8 @@ A production-grade Retrieval-Augmented Generation (RAG) proof-of-concept for kno
 - Why this POC is different
 - What’s unique in this POC
 - Vision and Objectives
-- Architecture Overview
+- [**Architecture & Diagrams**](docs/architecture.md)
+- [**Key Concepts (Deep Dive)**](docs/concepts.md)
 - Component Responsibilities
 - Data Flow and Pipeline Stages
 - Setup (Conda and Docker)
@@ -60,42 +61,31 @@ This POC implements a multi-stage RAG pipeline beyond naïve chunking.
   - Cross-Encoder re-ranking for improved relevance
   - Systematic evaluation harness
 
-## Architecture Overview
+## Architecture Overview (Visual)
+For a deep dive, see [**docs/architecture.md**](docs/architecture.md).
 
-### High-level pipeline (Milestones 0–3)
-```
-[User Query]
-  -> [HyDE Generator (optional)]
-  -> [Embed (HyDE or query)]
-  -> [Vector Search (ChromaDB)]
-  -> [Cross-Encoder Re-ranker]
-  -> [Prompt Formatter]
-  -> [Generator LLM]
-  -> [Grounded Answer + Citations]
+### High-level pipeline
+```mermaid
+graph LR
+    User[User] -- Query --> API[FastAPI]
+    API -- Search --> RAG[RAG Pipeline]
+    RAG -- Context --> LLM[OpenAI]
+    RAG -- Retrieve --> DB[(ChromaDB)]
 ```
 
 ### Component diagram
-```
-API: FastAPI /health, /ingest, /query
-
-Core:
-  - Config Loader
-  - JSON Logging
-  - Health State
-
-Ingestion:
-  - Loaders (PDF/TXT)
-  - Sentence-Window Splitter
-  - Index Builder (ChromaDB)
-
-Retrieval:
-  - Embeddings (Sentence-Transformers)
-  - Vector Search (Chroma)
-  - Rerank (Cross-Encoder or Fallback)
-
-LLM:
-  - HyDE Provider (OpenAI optional)
-  - Answer Generator (OpenAI optional)
+```mermaid
+graph TD
+    API[API Interface] --> Core[Core Logic]
+    Core --> Ingest[Ingestion Module]
+    Core --> Retrieve[Retrieval Module]
+    
+    Ingest --> Splitter[Sentence Window Splitter]
+    Ingest --> Index[ChromaDB Indexer]
+    
+    Retrieve --> Embed[Embeddings]
+    Retrieve --> Rerank[Cross-Encoder]
+    Retrieve --> Gen[LLM Generator]
 ```
 
 ## Data Flow and Pipeline Stages
