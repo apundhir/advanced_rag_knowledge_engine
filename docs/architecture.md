@@ -14,7 +14,7 @@ graph LR
     subgraph "Knowledge Engine"
         Ingestion -- Writes --> VectorDB[(ChromaDB)]
         RAG -- Reads --> VectorDB
-        RAG -- Generates --> LLM[LLM Provider (OpenAI)]
+        RAG -- Generates --> LLM["LLM Provider (OpenAI)"]
     end
 ```
 
@@ -36,7 +36,7 @@ sequenceDiagram
     
     loop For each Document
         API->>Splitter: split_into_sentence_windows(text)
-        Splitter-->>API: List[(Center Sentence, Full Window)]
+        Splitter-->>API: "List[(Center Sentence, Full Window)]"
         
         Note right of Splitter: Embed Center Sentence<br/>Store Full Window
         
